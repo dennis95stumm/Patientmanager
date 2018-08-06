@@ -1,4 +1,4 @@
-package de.thm.stumm.patientmanager;
+package de.thm.stumm.kis;
 
 public class Main {
 
