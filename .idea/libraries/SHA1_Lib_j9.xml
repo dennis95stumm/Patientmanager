@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="SHA1-Lib_j9">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/SHA1-Lib_j9.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
