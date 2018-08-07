@@ -1,8 +1,9 @@
 package de.thm.stumm.kis;
 
-public class Main {
+import de.thm.Sha1;
 
+public class Main {
     public static void main(String[] args) {
-	// write your code here
+        System.out.println(new Sha1().getHash("Test"));
     }
 }
