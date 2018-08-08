@@ -1,11 +1,11 @@
 <component name="ArtifactManager">
   <artifact type="jar" build-on-make="true" name="Abgabe_OOP_Stumm">
-    <output-path>$PROJECT_DIR$/out/artifacts/Abgabe_OOP_Stumm</output-path>
+    <output-path />
     <root id="archive" name="Abgabe_OOP_Stumm.jar">
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
       </element>
-      <element id="module-output" name="KIS" />
+      <element id="module-output" name="Patientmanager" />
       <element id="extracted-dir" path="$PROJECT_DIR$/libs/SHA1-Lib_j9.jar" path-in-jar="/" />
       <element id="dir-copy" path="$PROJECT_DIR$/src" />
       <element id="directory" name="doc">
