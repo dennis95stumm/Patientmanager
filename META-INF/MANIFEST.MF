@@ -1,2 +1,2 @@
 Manifest-Version: 1.0
-Main-Class: de.thm.stumm.kis.Main
+Main-Class: de.thm.stumm.kis.Patientmanager
