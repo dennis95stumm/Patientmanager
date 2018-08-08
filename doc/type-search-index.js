@@ -1,1 +1,1 @@
-typeSearchIndex = [{"p":"de.thm.stumm.kis","l":"Main"},{"p":"de.thm.stumm.kis","l":"Patient"},{"p":"de.thm.stumm.kis","l":"PatientList"}]
+typeSearchIndex = [{"p":"de.thm.stumm.kis","l":"Patient"},{"p":"de.thm.stumm.kis","l":"PatientList"},{"p":"de.thm.stumm.kis","l":"Patientmanager"}]
