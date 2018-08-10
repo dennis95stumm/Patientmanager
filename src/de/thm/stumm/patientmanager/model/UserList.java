@@ -5,18 +5,20 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
+ * Singleton that contains all existing users in the system.
+ *
  * @author Dennis Stumm
  */
 public class UserList extends List<User> {
     /**
-     *
+     * Instance of the UserList.
      */
     private static UserList instance;
 
     /**
-     *
+     * Array with default users that should be created if no users exist (the users.csv does not exist).
      */
-    private User[] userSeed = {
+    private final User[] userSeed = {
             new User("max", "3e5c5f0ee799eb1965756f590546061b77167f43"),
             new User("bob", "556f9ae42d491e9bffc3ff34febcaa6fc28c6d3a"),
             new User("john", "d139f80a8bc30efec42efcdd6e5daa71d2941127"),
@@ -24,7 +26,7 @@ public class UserList extends List<User> {
     };
 
     /**
-     *
+     * Initializes the UserList object by seeding the user objects if the user.csv is missing.
      */
     private UserList() {
         super();
@@ -32,7 +34,9 @@ public class UserList extends List<User> {
     }
 
     /**
-     * @return
+     * Returns the instance of the singleton object and initializes this object if necessary.
+     *
+     * @return The instance of this singleton.
      */
     public static UserList getInstance() {
         if (instance == null) {
@@ -43,7 +47,7 @@ public class UserList extends List<User> {
     }
 
     /**
-     *
+     * Checks if the user.csv is missing, in that case the user objects from the userSeed gets added to the UserList.
      */
     private void seedItemsIfNecessary() {
         if (Files.notExists(getFilePath())) {
@@ -54,7 +58,9 @@ public class UserList extends List<User> {
     }
 
     /**
-     * @param csvLine
+     * Adds a new user object with the information parsed from the passed String in CSV-Format to this UserList.
+     *
+     * @param csvLine Line in the CSV-Format to parse and get the user information from.
      */
     @Override
     protected void add(String csvLine) {
@@ -63,7 +69,7 @@ public class UserList extends List<User> {
     }
 
     /**
-     * @return
+     * @return Path to the CSV-File where the users of the application should be persisted.
      */
     @Override
     protected Path getFilePath() {
@@ -71,8 +77,10 @@ public class UserList extends List<User> {
     }
 
     /**
-     * @param index
-     * @return
+     * Returns a String containing the line for a CSV-File for the user object at the passed index.
+     *
+     * @param index Index for which user the CSV-Line should be generated.
+     * @return String in CSV-Format representing this user object.
      */
     @Override
     protected String getCsvLine(int index) {

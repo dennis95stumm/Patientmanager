@@ -36,8 +36,8 @@ public class LoginView {
 
     /**
      * Reads the login data from console input and tries to login into the application with the inputted data.
-     * <p>
-     * If the login was incorrect the user gets informed and the user will forced again to login by calling this
+     *
+     * If the login was incorrect the user gets informed and the user will be forced again to login by calling this
      * method recursively. Otherwise the next view gets displayed by calling the transition method of the controller.
      */
     private void showLogin() {

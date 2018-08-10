@@ -11,7 +11,7 @@ public class Patientmanager {
     /**
      * Initializes the LoginController, which initializes the view to force the user to login to the application.
      *
-     * @param args
+     * @param args Arguments passed to the application.
      */
     public static void main(String[] args) {
         new LoginController();
