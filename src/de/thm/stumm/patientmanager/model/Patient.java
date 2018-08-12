@@ -170,13 +170,13 @@ public class Patient {
     @Override
     public String toString() {
         String result = "**************************************************\n";
-        result += "ID:\t\t\t\t\t" + this.id + "\n";
-        result += "Vorname:\t\t\t" + this.firstName + "\n";
-        result += "Name:\t\t\t\t" + this.lastName + "\n";
-        result += "Alter:\t\t\t\t" + this.age + "\n";
-        result += "Aufnahmedatum:\t\t" + (this.admissionDate == null ? "-" : DateFormat.getDateInstance().format(this.admissionDate)) + "\n";
-        result += "Entlassungsdatum:\t" + (this.dischargeDate == null ? "-" : DateFormat.getDateInstance().format(this.dischargeDate)) + "\n";
-        result += "ICD:\t\t\t\t" + this.icd + "\n";
+        result += "ID: " + this.id + "\n";
+        result += "Vorname: " + this.firstName + "\n";
+        result += "Name: " + this.lastName + "\n";
+        result += "Alter: " + this.age + "\n";
+        result += "Aufnahmedatum: " + (this.admissionDate == null ? "-" : DateFormat.getDateInstance().format(this.admissionDate)) + "\n";
+        result += "Entlassungsdatum: " + (this.dischargeDate == null ? "-" : DateFormat.getDateInstance().format(this.dischargeDate)) + "\n";
+        result += "ICD: " + this.icd + "\n";
         result += "**************************************************";
 
         return result;
