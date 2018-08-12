@@ -1,6 +1,10 @@
 package de.thm.stumm.patientmanager.model;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -72,7 +76,7 @@ public abstract class List<T> implements Iterable<T> {
      * @return The found item or null if nothing was found.
      */
     public T find(T item) {
-        for (Object currentItem : items) {
+        for (Object currentItem : this) {
             if (item.equals(currentItem)) {
                 return (T) currentItem;
             }
@@ -89,8 +93,19 @@ public abstract class List<T> implements Iterable<T> {
      * @return The first occurrence, where the passed property has the passed value.
      */
     public T find(String property, Object value) {
-        for (Object item : items) {
-            // TODO
+        try {
+            Method method = null;
+            for (Object item : this) {
+                if (method == null) {
+                    method = item.getClass().getDeclaredMethod("get" + property.substring(0, 1).toUpperCase() + property.substring(1));
+                }
+
+                if (method.invoke(item).equals(value)) {
+                    return (T) item;
+                }
+            }
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
         }
 
         return null;
@@ -103,9 +118,26 @@ public abstract class List<T> implements Iterable<T> {
      * @param value Value of the property to search the items with.
      * @return Array containing all found items.
      */
-    public T[] findAll(String property, Object value) {
-        // TODO
-        return null;
+    public Object[] findAll(String property, Object value) {
+        Object[] foundItems = new Object[0];
+
+        try {
+            Method method = null;
+            for (Object item : this) {
+                if (method == null) {
+                    method = item.getClass().getDeclaredMethod("get" + property.substring(0, 1).toUpperCase() + property.substring(1));
+                }
+
+                if (method.invoke(item).equals(value)) {
+                    foundItems = Arrays.copyOf(foundItems, foundItems.length + 1);
+                    foundItems[foundItems.length - 1] = item;
+                }
+            }
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
+        return foundItems;
     }
 
     /**
@@ -118,6 +150,8 @@ public abstract class List<T> implements Iterable<T> {
 
     /**
      * Persists the items of this list to a CSV-File.
+     *
+     * @throws IOException If an error while persisting the patients occurs.
      */
     public void persist() throws IOException {
         Path filePath = getFilePath();
@@ -127,7 +161,16 @@ public abstract class List<T> implements Iterable<T> {
             Files.createFile(filePath);
         }
 
-        // TODO: Iterate over the list and get and persist the csv lines!
+        PrintWriter printWriter = new PrintWriter(Files.newBufferedWriter(getFilePath(), Charset.defaultCharset()));
+        Iterator iterator = iterator();
+
+        for (int i = 0; iterator.hasNext(); i++) {
+            iterator.next();
+            printWriter.println(getCsvLine(i));
+        }
+
+        printWriter.flush();
+        printWriter.close();
     }
 
     /**
@@ -136,7 +179,23 @@ public abstract class List<T> implements Iterable<T> {
      * @param item Item that should be removed.
      */
     public void remove(T item) {
-        // TODO
+        Iterator iterator = iterator();
+        int index = -1;
+
+        for (int i = 0; iterator.hasNext(); i++) {
+            if (iterator.next().equals(item)) {
+                index = i;
+                break;
+            }
+        }
+
+        if (index != -1) {
+            for (int i = index; i < length() - 1; i++) {
+                items[i] = items[i + 1];
+                items[i + 1] = null;
+            }
+            currentIndex--;
+        }
     }
 
     /**
@@ -190,6 +249,7 @@ public abstract class List<T> implements Iterable<T> {
             while (scanner.hasNextLine()) {
                 this.add(scanner.nextLine());
             }
+            scanner.close();
         }
     }
 }
