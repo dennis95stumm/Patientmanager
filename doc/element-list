@@ -1,1 +1,4 @@
-de.thm.stumm.kis
+de.thm.stumm.patientmanager
+de.thm.stumm.patientmanager.controller
+de.thm.stumm.patientmanager.model
+de.thm.stumm.patientmanager.view
