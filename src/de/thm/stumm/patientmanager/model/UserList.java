@@ -1,9 +1,9 @@
 package de.thm.stumm.patientmanager.model;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Iterator;
 
 /**
  * Singleton that contains all existing users in the system.
@@ -56,7 +56,9 @@ public class UserList extends List<User> {
      * Checks if the user.csv is missing, in that case the user objects from the userSeed gets added to the UserList.
      */
     private void seedItemsIfNecessary() {
-        if (Files.notExists(getFilePath())) {
+        Iterator iterator = iterator();
+
+        if (!iterator.hasNext()) {
             for (User user : userSeed) {
                 this.add(user);
             }
@@ -71,10 +73,10 @@ public class UserList extends List<User> {
      */
     @Override
     protected void add(String csvLine) throws MalformedCsvLineException {
-        String[] values = csvLine.split(";");
+        String[] values = csvLine.split(";", -1);
 
         if (values.length != 2) {
-            throw new MalformedCsvLineException("Die Zeile (" + csvLine + ") enthält zu wenig spalten!");
+            throw new MalformedCsvLineException("Die Zeile (" + csvLine + ") enthält zu wenig bzw. zu viel spalten!");
         }
 
         this.add(new User(values[0], values[1]));
