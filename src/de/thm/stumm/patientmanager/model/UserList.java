@@ -1,5 +1,6 @@
 package de.thm.stumm.patientmanager.model;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -27,8 +28,11 @@ public class UserList extends List<User> {
 
     /**
      * Initializes the UserList object by seeding the user objects if the user.csv is missing.
+     *
+     * @throws MalformedCsvLineException If some of the lines in the CSV-File contains errors.
+     * @throws IOException If an error gets thrown while reading the CSV-File.
      */
-    private UserList() {
+    private UserList() throws MalformedCsvLineException, IOException {
         super();
         this.seedItemsIfNecessary();
     }
@@ -37,8 +41,10 @@ public class UserList extends List<User> {
      * Returns the instance of the singleton object and initializes this object if necessary.
      *
      * @return The instance of this singleton.
+     * @throws MalformedCsvLineException If some of the lines in the CSV-File contains errors.
+     * @throws IOException If an error gets thrown while reading the CSV-File.
      */
-    public static UserList getInstance() {
+    public static UserList getInstance() throws MalformedCsvLineException, IOException {
         if (instance == null) {
             instance = new UserList();
         }
@@ -61,10 +67,16 @@ public class UserList extends List<User> {
      * Adds a new user object with the information parsed from the passed String in CSV-Format to this UserList.
      *
      * @param csvLine Line in the CSV-Format to parse and get the user information from.
+     * @throws MalformedCsvLineException If the passed csvLine contains errors.
      */
     @Override
-    protected void add(String csvLine) {
+    protected void add(String csvLine) throws MalformedCsvLineException {
         String[] values = csvLine.split(";");
+
+        if (values.length != 2) {
+            throw new MalformedCsvLineException("Die Zeile (" + csvLine + ") enthält zu wenig spalten!");
+        }
+
         this.add(new User(values[0], values[1]));
     }
 

@@ -5,11 +5,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.Scanner;
 
 /**
  * Abstract class for all lists in the application containing models.
  *
  * This class provides base functionality like adding, removing, persisting and loading the models in a collection.
+ * Furthermore the content of the list can be persisted by calling the `persist` method. On another initialization of
+ * the list the items gets loaded automatically from the file, where they were persisted.
  *
  * @param <T> The type of the items in the list.
  * @author Dennis Stumm
@@ -37,8 +40,11 @@ public abstract class List<T> implements Iterable<T> {
 
     /**
      * Initializes the list and loads when possible the models into the list.
+     *
+     * @throws MalformedCsvLineException If some of the lines in the CSV-File contains errors.
+     * @throws IOException If an error gets thrown while reading the CSV-File.
      */
-    public List() {
+    public List() throws MalformedCsvLineException, IOException {
         items = new Object[this.stackSize];
         loadItems();
     }
@@ -137,8 +143,9 @@ public abstract class List<T> implements Iterable<T> {
      * Adds the item with the values parsed from the passed CSV-Formatted string.
      *
      * @param csvLine The CSV-Formatted string to get the values for the new object from.
+     * @throws MalformedCsvLineException If the passed csvLine contains errors.
      */
-    protected abstract void add(String csvLine);
+    protected abstract void add(String csvLine) throws MalformedCsvLineException;
 
     /**
      * @return The path to the CSV-File where the elements of this list should be persisted.
@@ -173,10 +180,16 @@ public abstract class List<T> implements Iterable<T> {
 
     /**
      * Loads the models from the CSV-File into the list if the appropriate file exists.
+     *
+     * @throws MalformedCsvLineException If some of the lines in the CSV-File contains errors.
+     * @throws IOException If an error gets thrown while reading the CSV-File.
      */
-    private void loadItems() {
+    private void loadItems() throws MalformedCsvLineException, IOException {
         if (Files.exists(getFilePath())) {
-            // TODO: Read lines add call add(Line)
+            Scanner scanner = new Scanner(getFilePath());
+            while (scanner.hasNextLine()) {
+                this.add(scanner.nextLine());
+            }
         }
     }
 }

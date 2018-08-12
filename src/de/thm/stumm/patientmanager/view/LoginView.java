@@ -11,7 +11,7 @@ import java.util.Scanner;
  *
  * @author Dennis Stumm
  */
-public class LoginView {
+public class LoginView extends View {
     /**
      * The LoginController handling and providing the data the user inputs.
      */
@@ -30,7 +30,7 @@ public class LoginView {
      * Renders the login view on the console.
      */
     public void render() {
-        System.out.println("************ Login ************");
+        this.printTitle("Login");
         this.showLogin();
     }
 

@@ -1,8 +1,11 @@
 package de.thm.stumm.patientmanager.controller;
 
+import de.thm.stumm.patientmanager.model.MalformedCsvLineException;
 import de.thm.stumm.patientmanager.model.User;
 import de.thm.stumm.patientmanager.model.UserList;
 import de.thm.stumm.patientmanager.view.LoginView;
+
+import java.io.IOException;
 
 /**
  * Controller that handles the login for the application.
@@ -19,9 +22,16 @@ public class LoginController {
      * Gets the instance of the UserList, initializes and renders the LoginView.
      */
     public LoginController() {
-        users = UserList.getInstance();
         LoginView view = new LoginView(this);
-        view.render();
+
+        try {
+            users = UserList.getInstance();
+            view.render();
+        } catch (MalformedCsvLineException exception) {
+            view.printError("Beim Laden der Daten aus der CSV-Datei ist folgender Fehler aufgetreten:\n" + exception.getMessage());
+        } catch (IOException exception) {
+            view.printError("Beim Lesen der CSV-Datei ist folgender Fehler aufgetreten:\n" + exception.getLocalizedMessage());
+        }
     }
 
     /**
