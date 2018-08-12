@@ -52,11 +52,9 @@ public class LoginView extends View {
             System.out.println("Der eingegebene Benutzername oder das Passwort ist falsch!");
             System.out.println("Drücken Sie Enter um den Login erneut zu versuchen!");
             sc.nextLine();
-            sc.close();
             this.showLogin();
         } else {
             System.out.println();
-            sc.close();
             controller.transition();
         }
     }
