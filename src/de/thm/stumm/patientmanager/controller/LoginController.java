@@ -48,6 +48,6 @@ public class LoginController {
      * Initializes the next controller, whose view should be displayed after a successful login.
      */
     public void transition() {
-        // new PatientController();
+        new PatientController();
     }
 }
